@@ -1,5 +1,13 @@
 # SparrowRecSys
-SparrowRecSys是一个电影推荐系统，名字SparrowRecSys（麻雀推荐系统），取自“麻雀虽小，五脏俱全”之意。项目是一个基于maven的混合语言项目，同时包含了TensorFlow，Spark，Jetty Server等推荐系统的不同模块。希望你能够利用SparrowRecSys进行推荐系统的学习，并有机会一起完善它。
+项目基于SparrowRecSys进行改进。SparrowRecSys是一个电影推荐系统，是一个基于maven的混合语言项目，同时包含了TensorFlow，Spark，Jetty Server等推荐系统的不同模块。它具备“相似推荐”“猜你喜欢”等经典的推荐功能，在页面设置上，主要由“首页”“电影详情页”和“为你推荐页”组成。
+## 项目内容
+通过对从不同角度设计的策略能保证召回率接近理想的状态，又不至于损害排序效果。项目召回层从原始的单侧略召回，改进为了多路召回策略，从不同角度设计的策略提升召回率。
+
+通过对电影兴趣的演化和注意力机制的角度进行分析，使用DIN模型对排序模型改进并使用Tensorflow Serving线上部署，在测试集准确率和ROC AUC指标分别提升了1.47%和3.93%。
+
+输入`http://localhost:6010/user.html?id=124&model=din`即可看到推荐系统的前端效果。
+![alt text](docs/update.png)
+
 
 ## 环境要求
 * Java 8
@@ -9,7 +17,7 @@ SparrowRecSys是一个电影推荐系统，名字SparrowRecSys（麻雀推荐系
 * redis 5.0.14
 
 ## 快速开始
-将项目用IntelliJ打开后，找到`RecSysServer`，右键点选`Run`，然后在浏览器中输入`http://localhost:6010/`即可看到推荐系统的前端效果。
+将项目用IntelliJ IDEA打开后，启动`RecSysServer`，输入`http://localhost:6010/`即可看到推荐系统的前端效果。
 
 ## 项目数据
 项目数据来源于开源电影数据集[MovieLens](https://grouplens.org/datasets/movielens/)，项目自带数据集对MovieLens数据集进行了精简，仅保留1000部电影和相关评论、用户数据。全量数据集请到MovieLens官方网站进行下载，推荐使用MovieLens 20M Dataset。
