@@ -6,6 +6,8 @@
 通过对电影兴趣的演化和注意力机制的角度进行分析，使用DIN模型对排序模型改进并使用Tensorflow Serving线上部署，在测试集准确率和ROC AUC指标分别提升了1.47%和3.93%。
 
 输入`http://localhost:6010/user.html?id=124&model=din`即可看到推荐系统的前端效果。
+
+
 ![alt text](docs/update.png)
 
 

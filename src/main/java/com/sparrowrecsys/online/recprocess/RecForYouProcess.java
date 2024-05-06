@@ -31,8 +31,9 @@ public class RecForYouProcess {
         if (null == user){
             return new ArrayList<>();
         }
-        final int CANDIDATE_SIZE = 800;
-        List<Movie> candidates = DataManager.getInstance().getMovies(CANDIDATE_SIZE, "rating");
+//        final int CANDIDATE_SIZE = 800;
+//        List<Movie> candidates = DataManager.getInstance().getMovies(CANDIDATE_SIZE, "rating");
+
 
         //load user emb from redis if data source is redis
         if (Config.EMB_DATA_SOURCE.equals(Config.DATA_SOURCE_REDIS)){
@@ -51,12 +52,50 @@ public class RecForYouProcess {
             }
         }
 
+        List<Movie> candidates = multipleRetrievalCandidates(user);
         List<Movie> rankedList = ranker(user, candidates, model);
 
         if (rankedList.size() > size){
             return rankedList.subList(0, size);
         }
         return rankedList;
+    }
+    /**
+     * multiple-retrieval candidate generation method
+     * @param user input movie object
+     * @return movie candidates
+     */
+    public static List<Movie> multipleRetrievalCandidates(User user){
+        if (null == user){
+            return null;
+        }
+
+        HashSet<String> genres = new HashSet<>();
+        genres.add(user.getUserFeatures().get("userGenre1"));
+        genres.add(user.getUserFeatures().get("userGenre2"));
+        genres.add(user.getUserFeatures().get("userGenre3"));
+        genres.add(user.getUserFeatures().get("userGenre4"));
+        genres.add(user.getUserFeatures().get("userGenre5"));
+
+        HashMap<Integer, Movie> candidateMap = new HashMap<>();
+        for (String genre : genres){
+            List<Movie> oneCandidates = DataManager.getInstance().getMoviesByGenre(genre, 20, "rating");
+            for (Movie candidate : oneCandidates){
+                candidateMap.put(candidate.getMovieId(), candidate);
+            }
+        }
+
+        List<Movie> highRatingCandidates = DataManager.getInstance().getMovies(100, "rating");
+        for (Movie candidate : highRatingCandidates){
+            candidateMap.put(candidate.getMovieId(), candidate);
+        }
+
+        List<Movie> latestCandidates = DataManager.getInstance().getMovies(100, "releaseYear");
+        for (Movie candidate : latestCandidates){
+            candidateMap.put(candidate.getMovieId(), candidate);
+        }
+
+        return new ArrayList<>(candidateMap.values());
     }
 
     /**
