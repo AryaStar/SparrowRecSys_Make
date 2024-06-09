@@ -19,7 +19,7 @@
 * redis 5.0.14
 
 ## 快速开始
-将项目用IntelliJ IDEA打开后，启动`RecSysServer`，输入`http://localhost:6010/`即可看到推荐系统的前端效果。
+配置好环境后，将项目用IntelliJ IDEA打开后，启动`RecSysServer`，输入`http://localhost:6010/`即可看到推荐系统的前端效果。
 
 ## 项目数据
 项目数据来源于开源电影数据集[MovieLens](https://grouplens.org/datasets/movielens/)，项目自带数据集对MovieLens数据集进行了精简，仅保留1000部电影和相关评论、用户数据。全量数据集请到MovieLens官方网站进行下载，推荐使用MovieLens 20M Dataset。
